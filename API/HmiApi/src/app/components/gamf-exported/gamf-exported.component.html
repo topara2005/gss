@@ -1,0 +1,92 @@
+<ol class="breadcrumb">
+  <li><a [routerLink]="['/home']">Home</a></li>
+  <li class="active">GAMF - List of Exported Data</li>
+</ol>
+<hr>
+<br>
+<div class="">
+  <div class="row">
+    <div class="col-lg-4">
+      <label for="txtFileName">File Name</label>
+      <input type="text" class="form-control" id="txtFileName" [(ngModel)]="filterParams.fileName">
+    </div>
+    <div class="col-lg-4">
+      <label for="cmbFileType">File Type</label>
+      <select class="form-control" id="cmbFileType" [(ngModel)]="filterParams.fileType">
+        <option *ngFor="let t of FileTypeSelectItems" [value]="t">{{t}}</option>
+      </select>
+    </div>
+    <div class="col-lg-4">
+      <label for="txtSourceApplication">Source Application</label>
+      <input type="text" class="form-control" id="txtSourceApplication" [(ngModel)]="filterParams.sourceApplication" />
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-4">
+      <label for="cmbTargetApplication">Target Application</label>
+      <select class="form-control" id="cmbTargetApplication" [(ngModel)]="filterParams.destinationApplication">
+        <option *ngFor="let t of TargetApplicationSelectItems" [value]="t">{{t}}</option>
+      </select>
+    </div>
+    <div class="col-lg-4">
+      <label for="cmbDestinationDomain">Target Domain</label>
+      <select class="form-control" id="cmbDestinationDomain" [(ngModel)]="filterParams.destinationDomain">
+        <option *ngFor="let t of TargetDomainSelectItems" [value]="t">{{t}}</option>
+      </select>
+    </div>
+    <div class="col-lg-4">
+      <label for="cmbPriority">Priority</label>
+      <select class="form-control" id="cmbPriority" [(ngModel)]="filterParams.priority">
+        <option *ngFor="let t of PrioritySelectItems" [value]="t">{{t}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-4">
+      <label>Data Received From</label>
+      <input type="text" value="{{ filterParams.from | date:'yMd'}}" class="form-control" bsDatepicker [(bsValue)]="filterParams.from">
+    </div>
+    <div class="col-lg-4" [ngClass]="{'has-error': !ValidRange}">
+      <label>To</label>
+      <input type="text" value="{{filterParams.to | date:'yMd'}}" class="form-control" bsDatepicker [(bsValue)]="filterParams.to">
+    </div>
+  </div>
+  <div class="row margin-top-5">
+    <div class="col-lg-4">
+        <button type="button" class="btn btn-default" (click)="Search()" [disabled]="!ValidRange">Search</button>
+        <button type="button" class="btn btn-default">Clear</button>
+    </div>
+    <div class="col-lg-8">
+        <a [routerLink]="['/gamf/import']" class="btn btn-default pull-right">Import File</a>
+    </div>
+  </div>
+</div>
+<br>
+<div *ngIf="!ValidRange" class="alert alert-danger">Please select a valid date range.</div>
+<div *ngIf="searchInProgress">Search in progress. Please wait</div>
+<div class="table-responsive" *ngIf="!searchInProgress &amp;&amp; searchResult &amp;&amp; searchResult.length > 0">
+  <table class="table table-bordered table-hovered">
+    <thead>
+      <tr class="header-row">
+        <th>H/C Type</th>
+        <th>H/C SN</th>
+        <th>File Name</th>
+        <th>Type</th>
+        <th>Date Received</th>
+        <th>Priority</th>
+        <th>Destination Application</th>
+      </tr>
+    </thead>
+    <tbody class="table-body-centered">
+      <tr *ngFor="let e of searchResult">
+        <td>{{e.helicopterType}}</td>
+        <td>{{e.helicopterSerialNumber}}</td>
+        <td>{{e.fileName}}</td>
+        <td>{{e.fileType}}</td>
+        <td>{{e.dateReceived}}</td>
+        <td>{{e.priority}}</td>
+        <td>{{e.destinationApplication}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,77 @@
+<ol class="breadcrumb">
+  <li><a [routerLink]="['/home']">Home</a></li>
+  <li class="active">Air-Ground Key Status</li>
+</ol>
+<hr>
+<div class="form-inline">
+  <div class="form-group">
+      <label for="cmbLogs">Select the Certificates to view</label>
+      <select class="form-control" name="" id="cmbCertificates" [(ngModel)]="certificateToView">
+            <option *ngFor="let l of certficateSelectorItems" [ngValue]="l.id">{{l.name}}</option>
+      </select>
+      <button class="btn btn-default" (click)="LoadCertificates()">Select</button>
+  </div>
+  <div class="form-group pull-right" *ngIf="certificateToView == 1">
+      <!-- <a [routerLink]="['/gamf/import']" class="btn btn-default pull-right">Import a New Certificate</a> -->
+      <a class="btn btn-default pull-right">Import a New Certificate</a>
+  </div>
+</div>
+<br>
+<div class="table-responsive">
+    <table class="table table-bordered table-hovered" *ngIf="certificateToView == 0 &amp;&amp; certificateList &amp;&amp; certificateList.length > 0">
+      <thead>
+        <tr class="header-row">
+          <th>H/C Type</th>
+          <th>H/C SN</th>
+          <th>Name</th>
+          <th>Serial</th>
+          <th>Client Key</th>
+          <th>Issuer</th>
+          <th>CRL Installed Status</th>
+          <th>CRL Valid Status</th>
+          <th>Subject</th>
+          <th>Status</th>
+          <th>Expiration Date</th>
+        </tr>
+      </thead>
+      <tbody class="table-body-centered">
+        <tr *ngFor="let c of certificateList">
+         <td>{{c.type}}</td>
+         <td>{{c.serialNumber}}</td>
+         <td>{{c.name}}</td>
+         <td>{{c.serial}}</td>
+         <td>{{c.clientKey}}</td>
+         <td>{{c.issuer}}</td>
+         <td>{{c.cRLInstalledStatus}}</td>
+         <td>{{c.cRLValidStatus}}</td>
+         <td>{{c.subject}}</td>
+         <td>{{c.status}}</td>
+         <td>{{c.expirationDate}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="table table-bordered table-hovered" *ngIf="certificateToView == 1 &amp;&amp; certificateList &amp;&amp; certificateList.length > 0">
+        <thead>
+          <tr class="header-row">
+            <th>Name</th>
+            <th>Serial</th>
+            <th>air-Ground Server Key</th>
+            <th>Issuer</th>
+            <th>Subject</th>
+            <th>Status</th>
+            <th>Expiration Date</th>
+          </tr>
+        </thead>
+        <tbody class="table-body-centered">
+          <tr *ngFor="let c of certificateList">
+              <td>{{c.name}}</td>
+              <td>{{c.serial}}</td>
+              <td>{{c.airGroundServerKey}}</td>
+              <td>{{c.issuer}}</td>
+              <td>{{c.subject}}</td>
+              <td>{{c.status}}</td>
+              <td>{{c.expirationDate}}</td>
+          </tr>
+        </tbody>
+      </table>
+  </div>

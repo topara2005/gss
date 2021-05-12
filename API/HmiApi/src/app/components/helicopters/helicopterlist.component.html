@@ -1,0 +1,82 @@
+<ol class="breadcrumb">
+    <li><a [routerLink]="['/home']">Home</a></li>
+    <li class="active">Fleet Management</li>
+</ol>
+<hr>
+<form class="form-inline">
+    <div class="form-group">
+        <label>H/C Type</label>
+        <input type="text" class="form-control">
+    </div>
+    <div class="form-group">
+        <label>H/C SN</label>
+        <input type="email" class="form-control">
+    </div>
+
+    <button type="button" class="btn btn-default">Search</button>
+    <button type="button" class="btn btn-default">Clear</button>
+    <a [routerLink]="['add']" class="pull-right"> <i class="glyphicon glyphicon-plus"></i> New Helicopter</a>
+</form>
+<br>
+<div class="table-responsive">
+    <table class="table table-bordered table-stripped">
+        <thead>
+            <tr class="header-row">
+                <th>H/C Type</th>
+                <th>H/C SN</th>
+                <th>wACS Health</th>
+                <th>Interface Status</th>
+                <th>Last Known Location</th>
+                <th>Hardware PN</th>
+                <th>Software PN</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody class="table-body-centered">
+            <tr *ngFor="let h of helicopters">
+                <td>{{h.type}}</td>
+                <td>{{h.serialNumber}}</td>
+                <td>{{h.wACSHealth}}</td>
+                <td>{{h.interfaceStatus}}</td>
+                <td>
+                    <span *ngIf="h.lastKnownLocation">({{h.lastKnownLocation.latitude}}, {{h.lastKnownLocation.longitude}})</span>
+
+                </td>
+                <td>
+                    <a [routerLink]="['/fleet-management', h.id, 'hardware']" class="btn btn-default">View HW PN</a>
+                </td>
+                <td>
+                    <a [routerLink]="['/fleet-management', h.id, 'software']" class="btn btn-default">View SW PN</a>
+                </td>
+                <td>
+                    <a [routerLink]="['/fleet-management', h.id]">
+                        <i class="glyphicon glyphicon-edit"></i>
+                    </a>
+                    <a (click)="confirmModal.show()">
+                        <i class="glyphicon glyphicon-trash"></i>
+                    </a>
+                    <div class="modal fade" bsModal #confirmModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title pull-left">Confirm delete?</h4>
+                                    <button type="button" class="close pull-right" aria-label="Close" (click)="confirmModal.hide()">
+                             <span aria-hidden="true">&times;</span>
+                             </button>
+                                </div>
+                                <div class="modal-body">
+                                    do you want to remove the helicopter?
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-default" (click)="Remove(h.id, confirmModal)">Yes</button>
+                                    <button class="btn btn-default" (click)="confirmModal.hide()">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

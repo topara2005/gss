@@ -1,0 +1,75 @@
+<ol class="breadcrumb">
+  <li><a [routerLink]="['/home']">Home</a></li>
+  <li class="active">Log Management</li>
+</ol>
+<hr>
+<div class="form-inline">
+    <label for="cmbLogs">Select the Logs to view</label>
+    <select class="form-control" name="" id="cmbLogs" [(ngModel)]="ToView">
+      <option *ngFor="let l of logsToView" [ngValue]="l.id">{{l.name}}</option>
+    </select>      
+</div>
+<br>
+<div class="form-inline" *ngIf="toView != undefined">
+    <div class="form-group" *ngIf="ToView == 0">
+        <label for="cmbLogType">Select Helicopter</label>
+        <select class="form-control" id="cmbHelicopter" [(ngModel)]="selectedHelicopter">
+          <option *ngFor="let h of helicopterList" [value]="h.id">{{h.type}} - {{h.serialNumber}}</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="cmbLogType">Log Type</label>
+        <select class="form-control" id="cmbLogType" [(ngModel)]="filterParams.logType">
+          <option *ngFor="let t of logTypes" [value]="t.id">{{t.name}}</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label>From</label>
+          <input type="text" class="form-control"
+            value="{{ filterParams.from | date:'yMd'}}"
+            bsDatepicker [(bsValue)]="filterParams.from">
+    </div>
+    <div class="form-group" [ngClass]="{'has-error': !ValidRange}">
+        <label>To</label>
+        <input type="text" 
+        value="{{filterParams.to | date:'yMd'}}" 
+        class="form-control"
+        bsDatepicker [(bsValue)]="filterParams.to">
+    </div>
+    <button type="button" class="btn btn-default" (click)="Search()" [disabled]="!ValidRange || !ValidHelicopter">Search</button>
+    <button type="button" class="btn btn-default">Clear</button>    
+  </div>
+  <br>
+  <div *ngIf="!ValidRange" class="alert alert-danger">Please select a valid date range.</div>
+  <div *ngIf="!ValidHelicopter" class="alert alert-danger">Please select an helicopter.</div>
+  <div *ngIf="searchInProgress">Search in progress. Please wait</div>
+  <div class="table-responsive" *ngIf="!searchInProgress &amp;&amp; searchResult &amp;&amp; searchResult.length > 0">
+    <table class="table table-bordered table-hovered">
+      <thead>
+        <tr class="header-row">
+          <th>Select</th>
+          <th>Log File Name</th>
+          <th>Log Size</th>
+          <th>Log Date</th>
+          <th>Software Version</th>
+        </tr>
+      </thead>
+      <tbody class="table-body-centered">
+        <tr *ngFor="let log of searchResult">
+          <td>
+            <input type="checkbox" [(ngModel)]="log.selected">
+          </td>
+          <td>{{log.logFileName}}</td>
+          <td>{{log.logSize}}</td>
+          <td>{{log.logDate}}</td>
+          <td>{{log.softwareVersion}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div>
+        <button class="btn btn-default pull-right">
+          Export
+        </button>
+      </div>
+  </div>
+  

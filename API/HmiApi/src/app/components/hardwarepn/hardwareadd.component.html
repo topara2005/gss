@@ -1,0 +1,40 @@
+<ol class="breadcrumb">
+        <li><a [routerLink]="['/home']">Home</a></li>
+        <li><a [routerLink]="['/fleet-management']">Fleet Management</a></li>
+        <li><a [routerLink]="['/fleet-management', hid]">{{hid}}</a></li>
+        <li><a [routerLink]="['/fleet-management', hid, 'hardware']">Hardware PN List</a></li>        
+        <li class="active">Add</li>
+    </ol>
+    <hr>
+    <form [formGroup]="form" (ngSubmit)="Save(form.value)">
+        <div class="form-group" [ngClass]="{'has-error': !form.controls['name'].valid}">
+            <label for="txtPartName">Hardware Part Name</label>
+            <input id="txtPartName" type="text" class="form-control" [formControl]="form.controls['name']">
+            <div *ngIf="form.controls['name'].hasError('required') &amp;&amp; form.controls['name'].touched" class="text-danger">
+                The field Hardware Part Name is required.
+            </div>
+            <!-- <div *ngIf="form.controls['name'].hasError('minlength') &amp;&amp; form.controls['name'].touched" class="text-danger">
+                    The field Hardware Part Name length should be up to 6 characters.
+            </div> -->
+            <!-- <div *ngIf="form.controls['name'].hasError('maxlength') &amp;&amp; form.controls['name'].touched" class="text-danger">
+                    The field Hardware Part Name length should be less than 25 characters.
+            </div> -->
+        </div>
+        <div class="form-group" [ngClass]="{'has-error': !form.controls['number'].valid}">
+            <label for="txtPartNumber">Hardware Part Number</label>
+            <input id="txtPartNumber" type="text" class="form-control" [formControl]="form.controls['number']">
+            <div *ngIf="form.controls['number'].hasError('required') &amp;&amp; form.controls['number'].touched" class="text-danger">
+                    The field Hardware Part Number is required.
+            </div>
+            <!-- <div *ngIf="form.controls['number'].hasError('minlength') &amp;&amp; form.controls['number'].touched" class="text-danger">
+                    The field Hardware Part Number length should be up to 6 characters.
+            </div>
+            <div *ngIf="form.controls['number'].hasError('maxlength') &amp;&amp; form.controls['number'].touched" class="text-danger">
+                    The field Hardware Part Number length should be less than 25 characters.
+            </div> -->
+        </div>
+        <div class="form-group">
+            <button type="submit" [disabled]="!form.valid" class="btn btn-default">Save</button>
+            <button type="reset" class="btn btn-default" (click)="goBack()">Clear</button>
+        </div>
+    </form>

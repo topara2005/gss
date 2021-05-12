@@ -1,0 +1,93 @@
+<ol class="breadcrumb">
+  <li><a [routerLink]="['/home']">Home</a></li>
+  <li class="active">GAMF - Import File</li>
+</ol>
+<hr>
+<br>
+<div class="">
+  <div class="row">
+    <div class="col-lg-4">
+      <div class="input-group">
+        <div class="input-group-btn" id="sizing-addon2">
+          <label class="btn btn-default">
+            Select File...
+            <input type="file" class="form-control" id="txtFileName" style="display: none" (change)="onSelectFiles($event)">
+          </label>
+        </div>
+        <input type="text" class="form-control" [(ngModel)]="fileName" aria-describedby="sizing-addon2" readonly>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-lg-4">
+      <label for="cmbLogType">Select Helicopter</label>
+      <select class="form-control" id="cmbHelicopter" [(ngModel)]="selectedHelicopter">
+            <option *ngFor="let h of helicopterList" [value]="h.id">{{h.type}} - {{h.serialNumber}}</option>
+          </select>
+    </div>
+    <div class="col-lg-4">
+      <label for="cmbFileType">File Type</label>
+      <select class="form-control" id="cmbFileType" [(ngModel)]="metadata.fileType">
+          <option *ngFor="let t of FileTypeSelectItems" [value]="t">{{t}}</option>
+        </select>
+    </div>
+    <div class="col-lg-4">
+      <label for="txtSourceApplication">Source Application</label>
+      <input type="text" class="form-control" id="txtSourceApplication" [(ngModel)]="metadata.sourceApplication" />
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-4">
+      <label for="txtDestinationApplication">Target Application</label>
+      <select class="form-control" id="cmbTargetApplication" [(ngModel)]="metadata.destinationApplication">
+        <option *ngFor="let t of TargetApplicationSelectItems" [value]="t">{{t}}</option>
+      </select>
+    </div>
+    <div class="col-lg-4">
+      <label for="cmbDestinationDomain">Target Domain</label>
+      <select class="form-control" id="cmbDestinationDomain" [(ngModel)]="metadata.destinationDomain">
+        <option *ngFor="let t of TargetDomainSelectItems" [value]="t">{{t}}</option>
+      </select>
+    </div>
+    <div class="col-lg-4">
+      <label for="cmbPriority">Priority</label>
+      <select class="form-control" id="cmbPriority" [(ngModel)]="metadata.priority">
+          <option *ngFor="let t of PrioritySelectItems" [value]="t">{{t}}</option>
+        </select>
+    </div>
+  </div>
+  <div class="row margin-top-5">
+    <div class="col-lg-4">
+      <button type="button" class="btn btn-default" (click)="Upload()" [disabled]="!file &amp;&amp; !selectedHelicopter">Import File</button>
+      <button type="button" class="btn btn-default">Clear</button>
+    </div>
+  </div>
+</div>
+<br>
+<!-- Put a progress bar here -->
+<div *ngIf="uploadingFile">
+  Uploading file. Please wait.
+  <progressbar [animate]="true" [value]="uploadProgress" type="info"><b>{{uploadProgress}}%</b></progressbar>
+</div>
+
+<h3>GAMF - Real Time Transfer Status</h3>
+<hr>
+
+<!-- <div class="table-responsive" *ngIf="!searchInProgress &amp;&amp; searchResult &amp;&amp; searchResult.length > 0"> -->
+<div class="table-responsive">
+  <table class="table table-bordered table-hovered">
+    <thead>
+      <tr class="header-row">
+        <th>File Name</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody class="table-body-centered">
+      <tr *ngFor="let f of FileList">
+        <td>{{f.fileName}}</td>
+        <td>{{f.status}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

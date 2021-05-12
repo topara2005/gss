@@ -1,0 +1,20 @@
+@media (max-width: 767px) {
+    /* On small screens, the nav menu spans the full width of the screen. Leave a space for it. */
+    .body-content {
+        padding-top: 50px;
+    }
+}
+
+.header-row{
+    background-color: #f5f5f5;
+}
+.header-row th {
+    text-align: center;
+}
+
+.table-body-centered {
+}
+
+.table-body-centered td {
+    text-align: center;
+}

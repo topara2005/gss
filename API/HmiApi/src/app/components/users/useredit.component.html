@@ -1,0 +1,45 @@
+<ol class="breadcrumb">
+        <li><a [routerLink]="['/home']">Home</a></li>
+        <li><a [routerLink]="['/users']">Users</a></li>
+        <li class="active">Edit</li>
+</ol>
+<hr>
+<form [formGroup]="form" (ngSubmit)="Save(form.value)" novalidate>
+        <div class="form-group" [ngClass]="{'has-error': !form.controls['userName'].valid}">
+                <label for="txtUserName">Username</label>
+                <input id="txtUserName" type="text" class="form-control" [formControl]="form.controls['userName']">
+                <div *ngIf="form.controls['userName'].hasError('required') &amp;&amp; form.controls['userName'].touched" class="text-danger">
+                        The field Username is required.
+                </div>
+                <div *ngIf="form.controls['userName'].hasError('minlength') &amp;&amp; form.controls['userName'].touched" class="text-danger">
+                        The field Username length should be up to 6 characters.
+                </div>
+                <div *ngIf="form.controls['userName'].hasError('maxlength') &amp;&amp; form.controls['userName'].touched" class="text-danger">
+                        The field Username length should be less than 25 characters.
+                </div>
+        </div>
+        <div class="form-group" [ngClass]="{'has-error': !form.controls['email'].valid}">
+                <label for="txtEmail">Email</label>
+                <input id="txtEmail" type="email" class="form-control" [formControl]="form.controls['email']">
+                <div *ngIf="form.controls['email'].hasError('required') &amp;&amp; form.controls['email'].touched" class="text-danger">
+                        The field Email is required.
+                </div>
+                <div *ngIf="form.controls['email'].hasError('email') &amp;&amp; form.controls['email'].touched" class="text-danger">
+                        The field Email is not an email.
+                </div>
+        </div>
+        <div class="form-group" [ngClass]="{'has-error': !form.controls['role'].valid}">
+                <label for="cmbRole"></label>
+                <select name="Role" class="form-control" id="cmbRole" [formControl]="form.controls['role']">
+                <option value="0">Admin</option>
+                <option value="1">Standard</option>
+            </select>
+                <div *ngIf="form.controls['role'].hasError('required') &amp;&amp; form.controls['role'].touched" class="text-danger">
+                        The field Role is required.
+                </div>
+        </div>
+        <div class="form-group">
+                <button type="submit" [disabled]="!form.valid" class="btn btn-default">Save</button>
+                <button type="reset" class="btn btn-default" (click)="goBack()">Clear</button>
+        </div>
+</form>
